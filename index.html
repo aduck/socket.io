@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>socketIO</title>
+	<style>
+	*{margin:0;padding:0;}
+	h3{font-size:18px;padding:0 10px;border-bottom:1px solid #dfdfdf;color:#333;line-height:2;}
+	#box{padding:10px;overflow:hidden;margin-top:20px;}
+	input,button{width:75%;float:left;height:35px;box-sizing:border-box;padding:0 10px;}
+	button{width:25%;}
+	#msgs li{height:35px;background:#fff;padding:0 20px;line-height:35px;font-size:15px;}
+	#msgs li:nth-child(even){background:#dfdfdf;}
+	</style>
+</head>
+<body>
+	<h3>消息列表</h3>
+	<ul id="msgs"></ul>
+	<div id="box">
+		<form action="" id="myForm">
+			<input type="text" id="m">
+			<button>发送</button>
+		</form>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://file.easeeyes.com/js/jquery.min.js"></script>
+	<script>
+	  var socket = io();
+	  $('#m').focus();
+	  $('#myForm').submit(function(){
+	  	if(!$.trim($('#m').val())) return false;
+	  	var text=$('#m').val();
+	  	socket.emit('chat message',text);
+	  	$('#m').val('').focus();
+	  	return false;
+	  })
+	  socket.on('chat message',function(msg){
+	  	//console.log('aaaaaaaaaaaaaa')
+	  	$('#msgs').append($('<li>').text(msg));
+	  })
+	</script>
+</body>
+</html>
